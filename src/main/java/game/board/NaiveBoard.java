@@ -2,6 +2,8 @@ package game.board;
 
 import game.Direction;
 import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposables;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 import java.util.HashSet;
@@ -11,13 +13,17 @@ import static java.lang.System.err;
 
 public class NaiveBoard implements Board {
 
+  private static final int EMPTY_TILE = 0;
+
   private int[][] board;
 
   private Random random;
 
-  private Subject<Integer> newTile = BehaviorSubject.create();
+  private Subject<Integer> newTile;
 
-  private static final int EMPTY_TILE = 0;
+  private Subject<int[][]> boardSubject;
+
+  private CompositeDisposable teardown = new CompositeDisposable();
 
   public NaiveBoard() {
     random = new Random();
@@ -25,8 +31,14 @@ public class NaiveBoard implements Board {
 
   @Override
   public void initialise(int size) {
+    // Reset the board before initialising a new one
+
     board = new int[size][size];
     newTile = BehaviorSubject.create();
+    boardSubject = BehaviorSubject.create();
+
+    teardown.add(Disposables.fromAction(boardSubject::onComplete));
+    teardown.add(Disposables.fromAction(newTile::onComplete));
   }
 
   /**
@@ -182,7 +194,7 @@ public class NaiveBoard implements Board {
 
   @Override
   public Observable<int[][]> observeBoard() {
-    return Observable.just(this.board);
+    return boardSubject;
   }
 
   @Override
@@ -207,14 +219,24 @@ public class NaiveBoard implements Board {
     return tileCount;
   }
 
+  @Override
+  public void dispose() {
+    teardown.dispose();
+  }
+
+  @Override
+  public boolean isDisposed() {
+    return teardown.isDisposed();
+  }
+
   // Debugging purposes only
   private void printBoard(int[][] board, Position p) {
     for (int row = 0; row < board.length; row++) {
       for (int column = 0; column < board[row].length; column++) {
         if (p.x() == column && p.y() == row) {
-          System.err.printf("%4s", "x" + board[row][column]);
+          err.printf("%4s", "x" + board[row][column]);
         } else {
-          System.err.printf("%4d", board[row][column]);
+          err.printf("%4d", board[row][column]);
         }
       }
       err.printf("\n");

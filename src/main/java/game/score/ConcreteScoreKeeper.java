@@ -15,7 +15,7 @@ public class ConcreteScoreKeeper implements ScoreKeeper {
 
   @Override
   public void tileAdded(int tileValue) {
-    score.take(1).map((x) -> x + tileValue).subscribe(score::onNext);
+    score.take(1).map((x)->x + tileValue).subscribe(score::onNext);
   }
 
   @Override

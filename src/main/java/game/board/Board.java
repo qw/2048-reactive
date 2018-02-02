@@ -2,28 +2,32 @@ package game.board;
 
 import game.Direction;
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Represents a board of the game.
  * The board has no game logic (e.g. spawning two tiles at the start of a game is game logic),
  * it only has board mechanics such as shifting tiles and spawning tiles.
  */
-public interface Board {
+public interface Board extends Disposable {
 
   /**
    * Make a new square board of specified size
+   *
    * @param size
    */
   void initialise(int size);
 
   /**
    * Spawn a tile of value 2 or 4 onto the board
+   *
    * @return whether the tile was successfully spawned
    */
   boolean spawnRandomTile();
 
   /**
    * Try and shift the tiles in the given direction
+   *
    * @param moveDirection
    * @return whether at least one non-zero tile(s) has shifted
    */
@@ -42,6 +46,7 @@ public interface Board {
 
   /**
    * Observes the value of any new tiles that was formed
+   *
    * @return
    */
   Observable<Integer> observeNewTile();

@@ -3,6 +3,8 @@ package game;
 import game.board.Board;
 import game.score.ScoreKeeper;
 import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposables;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 
@@ -12,15 +14,22 @@ public class ConcreteGame implements Game {
 
   private ScoreKeeper scoreKeeper;
 
-  private Subject<GameState> gameState = BehaviorSubject.createDefault(GameState.MENU);
+  private Subject<GameState> gameState;
+
+  private CompositeDisposable teardown = new CompositeDisposable();
 
   public ConcreteGame(Board board, ScoreKeeper scoreKeeper) {
     this.board = board;
     this.scoreKeeper = scoreKeeper;
+
+    gameState = BehaviorSubject.createDefault(GameState.MENU);
+
+    teardown.add(board);
+    teardown.add(Disposables.fromAction(gameState::onComplete));
   }
 
   @Override
-  public void initialise(int size) {
+  public void startGame(int size) {
     gameState.onNext(GameState.IDLE);
 
     board.initialise(size);
@@ -63,5 +72,15 @@ public class ConcreteGame implements Game {
   @Override
   public boolean hasMove() {
     return board.hasMove();
+  }
+
+  @Override
+  public void dispose() {
+    teardown.dispose();
+  }
+
+  @Override
+  public boolean isDisposed() {
+    return teardown.isDisposed();
   }
 }

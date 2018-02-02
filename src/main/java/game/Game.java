@@ -1,10 +1,11 @@
 package game;
 
 import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
 
-public interface Game {
+public interface Game extends Disposable {
 
-  void initialise(int size);
+  void startGame(int size);
 
   Observable<int[][]> observeBoard();
 

@@ -26,7 +26,8 @@ public class MatrixUtils {
 
     int rotateCounts = 0;
     do {
-      rotateClockwise(matrix);;
+      rotateClockwise(matrix);
+      ;
       rotateCounts++;
     } while (rotateCounts < rotations);
 
