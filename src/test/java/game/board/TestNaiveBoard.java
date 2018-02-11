@@ -1,5 +1,7 @@
 package game.board;
 
+import io.reactivex.observers.TestObserver;
+import io.reactivex.subscribers.TestSubscriber;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,34 +37,6 @@ public class TestNaiveBoard {
           { 0, 0, 0, 0 }
       });
     });
-  }
-
-  @Test
-  public void TestSpawnRandomTile() {
-    List<Integer> sums = new ArrayList<>();
-
-    for (int x = 1; x < 1001; x++) {
-      board.spawnRandomTile();
-      int sum = 0;
-      for (int[] row : board.observeBoard().blockingSingle()) {
-        for (int i : row) {
-          sum += i;
-        }
-      }
-
-      sums.add(sum);
-
-      board.initialise(TEST_BOARD_SIZE);
-    }
-
-    boolean spawnedCorrectly = true;
-    for (int sum : sums) {
-      if (sum != 2 && sum != 4 && sum != 6) {
-        spawnedCorrectly = false;
-      }
-    }
-
-    Assert.assertTrue(spawnedCorrectly);
   }
 
   @Test
@@ -184,6 +158,33 @@ public class TestNaiveBoard {
       board.tryMove(DOWN);
     }
     Assert.assertArrayEquals(postMove, board.observeBoard().blockingSingle());
+  }
+
+  @Test
+  public void TestComplexMove() {
+    int[][] preMove = new int[][] {
+        { 2, 8, 8, 16, 2 },
+        { 16, 16, 1024, 32, 2 },
+        { 2, 4, 512, 512, 2 },
+        { 0, 0, 0, 0, 2 },
+        { 0, 0, 0, 0, 2 }
+    };
+
+    int[][] postMove = new int[][] {
+        { 0, 2, 16, 16, 2 },
+        { 0, 32, 1024, 32, 2 },
+        { 0, 2, 4, 1024, 2 },
+        { 0, 0, 0, 0, 2 },
+        { 0, 0, 0, 0, 2 }
+    };
+
+    board.setBoard(preMove);
+
+    board.tryMove(RIGHT);
+
+    TestObserver<int[][]> testObserver = board.observeBoard().test();
+    Assert.assertArrayEquals(postMove, testObserver.values().get(testObserver.valueCount() - 1));
+
   }
 
   private void printBoard(int[][] board) {

@@ -5,13 +5,17 @@ import io.reactivex.disposables.Disposable;
 
 public interface Game extends Disposable {
 
-  void startGame(int size);
+  void newGame(int size);
+
+  void endGame();
+
+  void menu();
 
   Observable<int[][]> observeBoard();
 
-  Observable<GameState> observeState();
-
   Observable<Integer> observeScore();
+
+  Observable<GameState> observeState();
 
   boolean tryMove(Direction moveDirection);
 
