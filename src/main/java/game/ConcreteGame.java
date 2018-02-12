@@ -29,15 +29,26 @@ public class ConcreteGame implements Game {
   }
 
   @Override
-  public void startGame(int size) {
+  public void newGame(int size) {
     gameState.onNext(GameState.IDLE);
 
     board.initialise(size);
-    board.spawnRandomTile();
-    board.spawnRandomTile();
 
     scoreKeeper.initialise();
     scoreKeeper.observeNewTile(board.observeNewTile());
+
+    board.spawnRandomTile();
+    board.spawnRandomTile();
+  }
+
+  @Override
+  public void endGame() {
+    gameState.onNext(GameState.GAMEOVER);
+  }
+
+  @Override
+  public void menu() {
+    gameState.onNext(GameState.MENU);
   }
 
   @Override
@@ -57,15 +68,18 @@ public class ConcreteGame implements Game {
 
   @Override
   public boolean tryMove(Direction moveDirection) {
+    final boolean hasMoved;
+
     gameState.onNext(GameState.SHIFTING);
 
-    boolean hasMoved = board.tryMove(moveDirection);
+    hasMoved = board.tryMove(moveDirection);
     if (!board.hasMove()) {
-      gameState.onNext(GameState.GAMEOVER);
+      endGame();
     } else {
       board.spawnRandomTile();
       gameState.onNext(GameState.IDLE);
     }
+
     return hasMoved;
   }
 

@@ -36,6 +36,7 @@ public class NaiveBoard implements Board {
     board = new int[size][size];
     newTile = BehaviorSubject.create();
     boardSubject = BehaviorSubject.create();
+    boardSubject.onNext(board);
 
     teardown.add(Disposables.fromAction(boardSubject::onComplete));
     teardown.add(Disposables.fromAction(newTile::onComplete));
@@ -125,9 +126,12 @@ public class NaiveBoard implements Board {
           if (scanningTile == EMPTY_TILE) {
             destinationY = scanningY;
             scanningY++;
+            err.println("To Empty: " + currentTile);
+            // JUST MOVED was being set to true even though it shouldn't have been, may be something to do with being the row closest to the wall
             justMoved = true;
           } else if (!justCombined.contains(new Position(x, scanningY)) && scanningTile == currentTile) {
             destinationY = scanningY;
+            err.println("To Combine: " + currentTile);
             justMoved = true;
             break;
           } else {
@@ -156,6 +160,10 @@ public class NaiveBoard implements Board {
 
     // Rotate the board back after it's done
     MatrixUtils.rotate90(board, backRotations);
+
+    printBoard(board, new Position(0, 0));
+
+    boardSubject.onNext(board);
 
     return madeMove;
 
