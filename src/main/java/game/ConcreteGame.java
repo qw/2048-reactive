@@ -14,7 +14,7 @@ public class ConcreteGame implements Game {
 
   private ScoreKeeper scoreKeeper;
 
-  private Subject<GameState> gameState;
+  private BehaviorSubject<GameState> gameState;
 
   private CompositeDisposable teardown = new CompositeDisposable();
 
@@ -37,8 +37,8 @@ public class ConcreteGame implements Game {
     scoreKeeper.initialise();
     scoreKeeper.observeNewTile(board.observeNewTile());
 
-    board.spawnRandomTile();
-    board.spawnRandomTile();
+//    board.spawnRandomTile();
+//    board.spawnRandomTile();
   }
 
   @Override
@@ -68,17 +68,23 @@ public class ConcreteGame implements Game {
 
   @Override
   public boolean tryMove(Direction moveDirection) {
-    final boolean hasMoved;
+    // Don't do anything if no game is currently going
+    if (gameState.getValue() == null || gameState.getValue() != GameState.IDLE)
+      return false;
+
+    boolean hasMoved;
 
     gameState.onNext(GameState.SHIFTING);
 
     hasMoved = board.tryMove(moveDirection);
     if (!board.hasMove()) {
       endGame();
-    } else {
-      board.spawnRandomTile();
-      gameState.onNext(GameState.IDLE);
     }
+//    else if (hasMoved){
+//      board.spawnRandomTile();
+//    }
+
+    gameState.onNext(GameState.IDLE);
 
     return hasMoved;
   }
