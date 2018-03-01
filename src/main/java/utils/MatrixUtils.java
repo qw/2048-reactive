@@ -24,23 +24,9 @@ public class MatrixUtils {
       return;
     }
 
-    String[] temp = { "", "", "", ""};
     for (int i = 0; i < rotations; i++) {
       rotateClockwise(matrix);
-      for (int row = 0; row < matrix.length; row ++) {
-        for (int col = 0; col < 4; col++) {
-          temp[row] += String.format("%4d", matrix[row][col]);
-        }
-        temp[row] += " | ";
-      }
     }
-
-    System.out.println("---");
-    for (String s : temp) {
-      System.out.printf(s);
-      System.out.println();
-    }
-    System.out.println("---");
 
   }
 

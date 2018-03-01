@@ -22,7 +22,6 @@ public class MultiDisplayDemoAscii implements View {
   private void printBoard(int[][] board) {
     System.out.println();
     game.observeScore().take(1).subscribe((score) -> out.println("Score: " + score));
-    game.observeMoveDirection().take(1).subscribe((direction -> out.println("Move: " + direction.toString())));
 
     for (int[] col : board) {
       for (int tile : col) {

@@ -161,12 +161,6 @@ public class NaiveBoard implements Board {
     if (madeMove)
       spawnRandomTile();
 
-    out.println("#####");
-    System.out.println("Move: " + moveDirection);
-    System.out.println("Rotations: " + rotations + " BackRs: " + backRotations);
-    printBoard(board, new Position(0,0));
-    out.println("#####");
-
     boardSubject.onNext(board);
 
     return madeMove;
@@ -185,23 +179,22 @@ public class NaiveBoard implements Board {
 
   @Override
   public boolean hasMove() {
-//    int[][] board = this.board.clone();
+    if (hasEmptyTile()) return true;
+
+    boolean hasMove = false;
     for (int i = 0; i < 4; i++) {
-      for (int x = 0; x < board[0].length; x++) {
-        for (int y = 0; y < board.length - 1; y++) {
-          if (board[y + 1][x] == EMPTY_TILE) {
-            return true;
-          } else if (board[y + 1][x] == board[y][x]) {
-            return true;
-          }
-
+      if (checkMoveDown()) {
+        hasMove = true;
+        // Restore the board to its original state
+        for (int j = i; j < 4; j++) {
+          MatrixUtils.rotate90(board, 1);
         }
+        break;
       }
-
       MatrixUtils.rotate90(board, 1);
     }
 
-    return this.hasEmptyTile();
+    return hasMove;
   }
 
   @Override
@@ -229,6 +222,21 @@ public class NaiveBoard implements Board {
     }
 
     return tileCount;
+  }
+
+  private boolean checkMoveDown() {
+    for (int x = 0; x < board[0].length; x++) {
+      for (int y = 0; y < board.length - 1; y++) {
+        if (board[y + 1][x] == EMPTY_TILE) {
+          return true;
+        } else if (board[y + 1][x] == board[y][x]) {
+          return true;
+        }
+
+      }
+    }
+
+    return false;
   }
 
   // Debugging purposes only
