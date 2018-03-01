@@ -15,6 +15,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import ui.View;
+import ui.ascii.human.MultiDisplayDemoAscii;
 import static game.GameState.GAMEOVER;
 
 public class JavaFxView extends Application {
@@ -57,6 +59,9 @@ public class JavaFxView extends Application {
   private void initialize() {
     this.game = Provider.getInstance().getGame();
     restartGame();
+
+    View view = new MultiDisplayDemoAscii(game);
+    view.display();
 
     board = new JavaFxBoard(gameSize);
 

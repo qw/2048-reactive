@@ -24,12 +24,9 @@ public class MatrixUtils {
       return;
     }
 
-    int rotateCounts = 0;
-    do {
+    for (int i = 0; i < rotations; i++) {
       rotateClockwise(matrix);
-      ;
-      rotateCounts++;
-    } while (rotateCounts < rotations);
+    }
 
   }
 

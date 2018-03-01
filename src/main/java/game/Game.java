@@ -2,6 +2,7 @@ package game;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
+import javafx.collections.ObservableList;
 
 public interface Game {
 
@@ -16,6 +17,8 @@ public interface Game {
   Observable<Integer> observeScore();
 
   Observable<GameState> observeState();
+
+  Observable<Direction> observeMoveDirection();
 
   boolean tryMove(Direction moveDirection);
 
