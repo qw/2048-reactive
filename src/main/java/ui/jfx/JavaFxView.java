@@ -6,7 +6,6 @@ import game.Game;
 import game.GameState;
 import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -14,7 +13,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import static game.GameState.GAMEOVER;
@@ -29,7 +27,9 @@ public class JavaFxView extends Application {
 
   private BorderPane rootPane;
 
-  private GridPane gridPane;
+  private JavaFxBoard board;
+
+  private JavaFxScore score;
 
   private Stage primaryStage;
 
@@ -37,11 +37,9 @@ public class JavaFxView extends Application {
 
   private static final int WINDOW_WIDTH = 400;
 
-  private static final int TILE_SIZE = 64;
-
-  private static final int TILES_PADDING = 16;
-
   private static final Color BG_COLOR = Color.rgb(187,173,160);
+
+  private static final int PADDING = 16;
 
   /**
    * JavaFx requires the default non-args constructor.
@@ -60,21 +58,21 @@ public class JavaFxView extends Application {
     this.game = Provider.getInstance().getGame();
     restartGame();
 
-    gridPane = new GridPane();
-    gridPane.setHgap(TILES_PADDING);
-    gridPane.setVgap(TILES_PADDING);
-    gridPane.setPadding(new Insets(TILES_PADDING));
-    layTiles();
+    board = new JavaFxBoard(gameSize);
+
+    score = new JavaFxScore();
 
     rootPane = new BorderPane();
-    rootPane.setCenter(gridPane);
+    rootPane.setCenter(board);
+    rootPane.setBottom(score);
+    rootPane.setPadding(new Insets(PADDING));
     rootPane.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
 
     gameScene = new Scene(rootPane, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     game.observeState().subscribe(this::updateView);
-    game.observeBoard().subscribe(this::redrawTiles);
-    game.observeScore().subscribe(this::drawScore);
+    game.observeBoard().subscribe(board::redrawTiles);
+    game.observeScore().subscribe(score::drawScore);
     gameScene.addEventHandler(KeyEvent.KEY_PRESSED, this::controls);
 
     primaryStage.setTitle("2048");
@@ -86,40 +84,6 @@ public class JavaFxView extends Application {
   private void restartGame() {
     game.newGame(4);
     gameSize = 4;
-  }
-
-  /**
-   * Draws a square board
-   */
-  private void layTiles() {
-    for (int row = 0; row < gameSize; row++) {
-      for (int column = 0; column < gameSize; column++) {
-        int offsetX = offsetCoord(column);
-        int offsetY = offsetCoord(row);
-        gridPane.add(new Tile(offsetX, offsetY, TILE_SIZE), column, row);
-      }
-    }
-  }
-
-  private static int offsetCoord(int arg) {
-    return arg * TILE_SIZE;
-  }
-
-  private void redrawTiles(int[][] board) {
-    if (board != null && gameSize != 0) {
-      for (Node child : gridPane.getChildren()) {
-        Tile t = (Tile) child;
-        if (t == null) return;
-
-        int row = GridPane.getRowIndex(t);
-        int col = GridPane.getColumnIndex(t);
-        t.paintNewValue(board[row][col]);
-      }
-    }
-  }
-
-  private void drawScore(int score) {
-
   }
 
   private void updateView(GameState gameState) {
