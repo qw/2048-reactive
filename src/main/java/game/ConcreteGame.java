@@ -18,11 +18,14 @@ public class ConcreteGame implements Game {
 
   private CompositeDisposable teardown = new CompositeDisposable();
 
+  private BehaviorSubject<Direction> pastMove;
+
   public ConcreteGame(Board board, ScoreKeeper scoreKeeper) {
     this.board = board;
     this.scoreKeeper = scoreKeeper;
 
     gameState = BehaviorSubject.createDefault(GameState.MENU);
+    pastMove = BehaviorSubject.create();
   }
 
   @Override
@@ -33,7 +36,6 @@ public class ConcreteGame implements Game {
 
     scoreKeeper.initialise();
     scoreKeeper.observeNewTile(board.observeNewTile());
-
   }
 
   @Override
@@ -57,6 +59,11 @@ public class ConcreteGame implements Game {
   }
 
   @Override
+  public Observable<Direction> observeMoveDirection() {
+    return this.pastMove;
+  }
+
+  @Override
   public Observable<Integer> observeScore() {
     return scoreKeeper.observeScore();
   }
@@ -72,6 +79,7 @@ public class ConcreteGame implements Game {
     gameState.onNext(GameState.SHIFTING);
 
     hasMoved = board.tryMove(moveDirection);
+    pastMove.onNext(moveDirection);
     if (!board.hasMove()) {
       endGame();
     } else {

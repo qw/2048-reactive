@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Random;
 import utils.MatrixUtils;
 import static java.lang.System.err;
+import static java.lang.System.out;
 import static java.lang.System.setOut;
 
 public class NaiveBoard implements Board {
@@ -33,8 +34,6 @@ public class NaiveBoard implements Board {
     // Reset the board before initialising a new one
 
     board = new int[size][size];
-//    newTile = BehaviorSubject.create();
-//    boardSubject = BehaviorSubject.create();
     boardSubject.onNext(board);
 
     spawnRandomTile();
@@ -162,6 +161,12 @@ public class NaiveBoard implements Board {
     if (madeMove)
       spawnRandomTile();
 
+    out.println("#####");
+    System.out.println("Move: " + moveDirection);
+    System.out.println("Rotations: " + rotations + " BackRs: " + backRotations);
+    printBoard(board, new Position(0,0));
+    out.println("#####");
+
     boardSubject.onNext(board);
 
     return madeMove;
@@ -180,7 +185,7 @@ public class NaiveBoard implements Board {
 
   @Override
   public boolean hasMove() {
-    int[][] board = this.board.clone();
+//    int[][] board = this.board.clone();
     for (int i = 0; i < 4; i++) {
       for (int x = 0; x < board[0].length; x++) {
         for (int y = 0; y < board.length - 1; y++) {
@@ -231,15 +236,15 @@ public class NaiveBoard implements Board {
     for (int row = 0; row < board.length; row++) {
       for (int column = 0; column < board[row].length; column++) {
         if (p.x() == column && p.y() == row) {
-          err.printf("%4s", "x" + board[row][column]);
+          out.printf("%4s", "x" + board[row][column]);
         } else {
-          err.printf("%4d", board[row][column]);
+          out.printf("%4d", board[row][column]);
         }
       }
-      err.printf("\n");
+      out.printf("\n");
     }
 
-    err.println("\n");
+    out.println("\n");
   }
 
 }
