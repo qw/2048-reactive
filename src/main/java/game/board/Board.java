@@ -9,7 +9,7 @@ import io.reactivex.disposables.Disposable;
  * The board has no game logic (e.g. spawning two tiles at the start of a game is game logic),
  * it only has board mechanics such as shifting tiles and spawning tiles.
  */
-public interface Board extends Disposable {
+public interface Board {
 
   /**
    * Make a new square board of specified size

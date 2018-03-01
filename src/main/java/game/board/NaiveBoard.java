@@ -20,11 +20,9 @@ public class NaiveBoard implements Board {
 
   private Random random;
 
-  private Subject<Integer> newTile;
+  private Subject<Integer> newTile = BehaviorSubject.create();
 
-  private Subject<int[][]> boardSubject;
-
-  private CompositeDisposable teardown = new CompositeDisposable();
+  private Subject<int[][]> boardSubject = BehaviorSubject.create();
 
   public NaiveBoard() {
     random = new Random();
@@ -35,20 +33,19 @@ public class NaiveBoard implements Board {
     // Reset the board before initialising a new one
 
     board = new int[size][size];
-    newTile = BehaviorSubject.create();
-    boardSubject = BehaviorSubject.create();
+//    newTile = BehaviorSubject.create();
+//    boardSubject = BehaviorSubject.create();
     boardSubject.onNext(board);
 
     spawnRandomTile();
     spawnRandomTile();
 
-    teardown.add(Disposables.fromAction(boardSubject::onComplete));
-    teardown.add(Disposables.fromAction(newTile::onComplete));
+    boardSubject.onNext(board);
   }
 
   /**
    * Places a single 2 or 4 Tile
-   * P(x = 2) = 80%, P(x = 4) = 20%
+   * P(x = 2) = 90%, P(x = 4) = 10%
    *
    * @param
    */
@@ -62,7 +59,7 @@ public class NaiveBoard implements Board {
       return spawnedTile;
 
     int probability = 1 + random.nextInt(100);
-    int tileValue = probability <= 80 ? 2 : 4;
+    int tileValue = probability <= 90 ? 2 : 4;
     // Counting empty tiles on the board from left to right, top to bottom, if kThSelectedTile = 5, then a new tile will be spawned at the 5th empty tile
     int kThSelectedTile = 1 + random.nextInt(totalEmptyTiles);
 
@@ -227,16 +224,6 @@ public class NaiveBoard implements Board {
     }
 
     return tileCount;
-  }
-
-  @Override
-  public void dispose() {
-    teardown.dispose();
-  }
-
-  @Override
-  public boolean isDisposed() {
-    return teardown.isDisposed();
   }
 
   // Debugging purposes only

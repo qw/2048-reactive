@@ -10,16 +10,18 @@ import io.reactivex.subjects.Subject;
 import java.util.Scanner;
 import ui.View;
 
-public class MachineAscii extends View {
+public class MachineAscii implements View {
 
   private final Gson gson;
+
+  private Game game;
 
   private StandardOutModel outModel;
 
   private Subject<MachineState> machineStateSubject = BehaviorSubject.createDefault(MachineState.MAIN_MENU);
 
   public MachineAscii(Game game, Gson gson) {
-    super(game);
+    this.game = game;
     this.gson = gson;
   }
 
@@ -47,7 +49,6 @@ public class MachineAscii extends View {
           break;
         case "q":
           hasQuit = true;
-          game.dispose();
           break;
         }
       } else {

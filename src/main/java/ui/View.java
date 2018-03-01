@@ -1,17 +1,7 @@
 package ui;
 
-import game.Game;
+public interface View {
 
-public abstract class View {
-
-  protected Game game;
-
-  public View(Game game) {
-    this.game = game;
-  }
-
-  ;
-
-  public abstract void display();
+  void display();
 
 }
