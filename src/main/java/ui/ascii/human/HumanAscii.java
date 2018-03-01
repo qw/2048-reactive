@@ -7,10 +7,12 @@ import java.util.Scanner;
 import ui.View;
 import static java.lang.System.out;
 
-public class HumanAscii extends View {
+public class HumanAscii implements View {
+
+  private Game game;
 
   public HumanAscii(Game game) {
-    super(game);
+    this.game = game;
   }
 
   @Override
@@ -30,7 +32,6 @@ public class HumanAscii extends View {
           break;
         case "q":
           hasQuit = true;
-          game.dispose();
           out.println("Quitting...\n");
           break;
         }

@@ -3,7 +3,7 @@ package game;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
-public interface Game extends Disposable {
+public interface Game {
 
   void newGame(int size);
 

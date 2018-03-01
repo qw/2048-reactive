@@ -23,9 +23,6 @@ public class ConcreteGame implements Game {
     this.scoreKeeper = scoreKeeper;
 
     gameState = BehaviorSubject.createDefault(GameState.MENU);
-
-    teardown.add(board);
-    teardown.add(Disposables.fromAction(gameState::onComplete));
   }
 
   @Override
@@ -37,8 +34,6 @@ public class ConcreteGame implements Game {
     scoreKeeper.initialise();
     scoreKeeper.observeNewTile(board.observeNewTile());
 
-//    board.spawnRandomTile();
-//    board.spawnRandomTile();
   }
 
   @Override
@@ -79,12 +74,9 @@ public class ConcreteGame implements Game {
     hasMoved = board.tryMove(moveDirection);
     if (!board.hasMove()) {
       endGame();
+    } else {
+      gameState.onNext(GameState.IDLE);
     }
-//    else if (hasMoved){
-//      board.spawnRandomTile();
-//    }
-
-    gameState.onNext(GameState.IDLE);
 
     return hasMoved;
   }
@@ -92,15 +84,5 @@ public class ConcreteGame implements Game {
   @Override
   public boolean hasMove() {
     return board.hasMove();
-  }
-
-  @Override
-  public void dispose() {
-    teardown.dispose();
-  }
-
-  @Override
-  public boolean isDisposed() {
-    return teardown.isDisposed();
   }
 }
