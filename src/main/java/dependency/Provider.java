@@ -4,6 +4,9 @@ import game.ConcreteGame;
 import game.Game;
 import game.board.NaiveBoard;
 import game.score.ConcreteScoreKeeper;
+import javafx.scene.layout.StackPane;
+import ui.jfx.SimpleNavigator;
+import ui.jfx.navigation.Navigator;
 
 /**
  * Singleton.
@@ -22,5 +25,9 @@ public class Provider {
 
   public Game getGame() {
     return new ConcreteGame(new NaiveBoard(), new ConcreteScoreKeeper());
+  }
+
+  public Navigator getNavigator(StackPane root) {
+    return new SimpleNavigator(root);
   }
 }

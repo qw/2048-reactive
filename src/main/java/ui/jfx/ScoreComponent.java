@@ -3,11 +3,11 @@ package ui.jfx;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class JavaFxScore extends Text {
+public class ScoreComponent extends Text {
 
   private static final Font FONT = new Font("Arial",32);
 
-  public JavaFxScore() {
+  public ScoreComponent() {
     super("Score: ");
     setFont(FONT);
   }

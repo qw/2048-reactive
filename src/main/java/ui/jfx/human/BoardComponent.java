@@ -1,10 +1,14 @@
-package ui.jfx;
+package ui.jfx.human;
 
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
+import ui.jfx.Tile;
 
-public class JavaFxBoard extends GridPane {
+/**
+ * Draws the board's tiles, does not assume a set board size
+ */
+public class BoardComponent extends GridPane {
 
   // Size of the tile arrangements, e.g. 4 means 4 x 4 tiles
   private int size;
@@ -13,7 +17,7 @@ public class JavaFxBoard extends GridPane {
 
   private static final int TILES_PADDING = 16;
 
-  public JavaFxBoard(int size) {
+  public BoardComponent(int size) {
     super();
     this.size = size;
     setHgap(TILES_PADDING);
