@@ -13,8 +13,11 @@ import ui.ascii.human.MultiDisplayDemoAscii;
 import ui.jfx.navigation.Navigator;
 import ui.jfx.screens.game.GameViewModel;
 import ui.jfx.screens.game.HumanGameScreen;
+import ui.jfx.screens.menu.MenuScreen;
 
 public class Master extends Application {
+
+  private Stage primaryStage;
 
   private StackPane root;
 
@@ -34,6 +37,7 @@ public class Master extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+    this.primaryStage = primaryStage;
     provider = Provider.getInstance();
 
     root = new StackPane();
@@ -47,6 +51,9 @@ public class Master extends Application {
     scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     primaryStage.setTitle("2048");
+    primaryStage.setMinHeight(WINDOW_HEIGHT);
+    primaryStage.setMinWidth(WINDOW_WIDTH);
+    primaryStage.setResizable(false);
     primaryStage.setScene(scene);
     primaryStage.show();
   }
@@ -75,10 +82,13 @@ public class Master extends Application {
     gameViewModel.restartGame(menu.getGameSize());
     // Construct the Human UI view
     HumanGameScreen humanGameScreen = new HumanGameScreen(gameViewModel, navigator);
-//    root.getChildren().add(humanGameScreen);
     // Initialize the standard out UI
     View view = new MultiDisplayDemoAscii(game);
     view.display();
     navigator.next(humanGameScreen);
+    root.autosize();
+    primaryStage.setHeight(root.getHeight());
+    primaryStage.setWidth(root.getWidth());
+//    System.out.println(scene.getHeight() + " WIDTH: " + scene.getWidth() + "ROOT: " + root.getHeight());
   }
 }

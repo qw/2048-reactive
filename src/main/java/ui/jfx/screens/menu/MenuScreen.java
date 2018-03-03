@@ -1,4 +1,4 @@
-package ui.jfx;
+package ui.jfx.screens.menu;
 
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -22,7 +22,6 @@ public class MenuScreen extends Pane {
     this.navigator = navigator;
 
     gameSize = new TextField(String.valueOf(DEFAULT_GAME_SIZE));
-    gameSize.setText(String.valueOf(DEFAULT_GAME_SIZE));
     gameSize.textProperty().addListener((observable, oldValue, newValue) -> {
       if (!newValue.matches("\\d*") || newValue.equals("") || Integer.parseInt(newValue) < MIN_GAME_SIZE || Integer.parseInt(newValue) > MAX_GAME_SIZE) {
         gameSize.setText(oldValue);
@@ -38,5 +37,14 @@ public class MenuScreen extends Pane {
   }
 
   private void controls(KeyEvent keyEvent) {
+//    int size = Integer.parseInt(gameSize.getText());
+//    switch (keyEvent.getCode()) {
+//    case LEFT:
+//      gameSize.setText(String.valueOf(++size));
+//      break;
+//    case RIGHT:
+//      gameSize.setText(String.valueOf(--size));
+//      break;
+//    }
   }
 }

@@ -10,7 +10,7 @@ import ui.jfx.navigation.Navigator;
 
 /**
  * Singleton.
- * Because JavaFx requires a default non-args constructor, this class is used for dependency injection.
+ * This class is used for pseudo dependency injection.
  */
 public class Provider {
 
