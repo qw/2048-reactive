@@ -2,16 +2,12 @@ package game.board;
 
 import game.Direction;
 import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposables;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 import java.util.HashSet;
 import java.util.Random;
 import utils.MatrixUtils;
-import static java.lang.System.err;
 import static java.lang.System.out;
-import static java.lang.System.setOut;
 
 public class NaiveBoard implements Board {
 

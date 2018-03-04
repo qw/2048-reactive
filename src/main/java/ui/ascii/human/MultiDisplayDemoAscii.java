@@ -6,9 +6,9 @@ import static java.lang.System.out;
 
 public class MultiDisplayDemoAscii implements View {
 
-  private Game game;
-
   int count;
+
+  private Game game;
 
   public MultiDisplayDemoAscii(Game game) {
     this.game = game;
@@ -21,7 +21,7 @@ public class MultiDisplayDemoAscii implements View {
 
   private void printBoard(int[][] board) {
     System.out.println();
-    game.observeScore().take(1).subscribe((score) -> out.println("Score: " + score));
+    game.observeScore().take(1).subscribe((score)->out.println("Score: " + score));
 
     for (int[] col : board) {
       for (int tile : col) {

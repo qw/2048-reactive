@@ -2,7 +2,6 @@ package game.board;
 
 import game.Direction;
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
 
 /**
  * Represents a board of the game.
