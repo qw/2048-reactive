@@ -2,25 +2,14 @@ package main;
 
 import com.google.gson.Gson;
 import dependency.Provider;
-import game.ConcreteGame;
 import game.Game;
-import game.board.NaiveBoard;
-import game.score.ConcreteScoreKeeper;
 import java.util.Scanner;
 import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextBoundsType;
-import javafx.stage.Stage;
 import ui.View;
 import ui.ascii.human.HumanAscii;
 import ui.ascii.human.MultiDisplayDemoAscii;
 import ui.ascii.machine.MachineAscii;
-import ui.jfx.JavaFxView;
-import ui.jfx.Tile;
+import ui.jfx.Master;
 import static java.lang.System.out;
 
 public class Main{
@@ -28,9 +17,12 @@ public class Main{
   private static String[] interfaces = { "machine", "human ASCII", "human GUI" };
 
   public static void main(String[] args) {
-    Application.launch(JavaFxView.class);
+    Application.launch(Master.class);
   }
 
+  /**
+   * Because reading from standard in is blocking, the command line interfaces are not used when JavaFX is used.
+   */
   private static void interfaceSelection() {
     while (true) {
       out.println("Select Interface, or (q)uit:");

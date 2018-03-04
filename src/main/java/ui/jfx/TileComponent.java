@@ -7,7 +7,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextBoundsType;
 
-public class Tile extends StackPane {
+public class TileComponent extends StackPane {
 
   private Text text;
 
@@ -17,7 +17,7 @@ public class Tile extends StackPane {
 
   private static final int ARC = 14;
 
-  public Tile (double x, double y, double size) {
+  public TileComponent(double x, double y, double size) {
     rectangle = new Rectangle(size, size);
     rectangle.setX(x);
     rectangle.setY(y);

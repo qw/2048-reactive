@@ -4,10 +4,13 @@ import game.ConcreteGame;
 import game.Game;
 import game.board.NaiveBoard;
 import game.score.ConcreteScoreKeeper;
+import javafx.scene.layout.StackPane;
+import ui.jfx.SimpleNavigator;
+import ui.jfx.navigation.Navigator;
 
 /**
  * Singleton.
- * Because JavaFx requires a default non-args constructor, this class is used for dependency injection.
+ * This class is used for pseudo dependency injection.
  */
 public class Provider {
 
@@ -22,5 +25,9 @@ public class Provider {
 
   public Game getGame() {
     return new ConcreteGame(new NaiveBoard(), new ConcreteScoreKeeper());
+  }
+
+  public Navigator getNavigator(StackPane root) {
+    return new SimpleNavigator(root);
   }
 }
