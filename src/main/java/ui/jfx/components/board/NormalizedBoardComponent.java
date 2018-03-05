@@ -6,6 +6,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextBoundsType;
 
 public class NormalizedBoardComponent extends BoardComponent {
 
@@ -67,7 +70,11 @@ public class NormalizedBoardComponent extends BoardComponent {
 
 class NormalizedTileComponent extends StackPane {
 
+  private static final Font FONT = new Font("Arial", 48);
+
   private static final Color OPAQUE_COLOR = Color.rgb(0, 0, 0);
+
+  private Text text;
 
   private Rectangle rectangle;
 
@@ -76,7 +83,11 @@ class NormalizedTileComponent extends StackPane {
     rectangle.setX(x);
     rectangle.setY(y);
 
-    this.getChildren().addAll(rectangle);
+    text = new Text("");
+    text.setFont(FONT);
+    text.setBoundsType(TextBoundsType.VISUAL);
+
+    this.getChildren().addAll(rectangle, text);
     repaint(1);
   }
 

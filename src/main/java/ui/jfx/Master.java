@@ -56,8 +56,6 @@ public class Master extends Application {
     scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     primaryStage.setTitle("2048");
-    primaryStage.setMinHeight(WINDOW_HEIGHT);
-    primaryStage.setMinWidth(WINDOW_WIDTH);
     primaryStage.setResizable(false);
     primaryStage.setScene(scene);
     primaryStage.show();
@@ -83,12 +81,15 @@ public class Master extends Application {
   private void displayGameScreens() {
     Game game = provider.getGame();
     int gameSize = menu.getGameSize();
+
     // Initialize the JavaFx view model
     gameViewModel = new GameViewModel(game);
     gameViewModel.restartGame(gameSize);
+
     // Construct the Human UI view
     GameScreen humanGameScreen = new GameScreen(gameViewModel, navigator, provider.getHumanBoard(gameSize));
     navigator.next(humanGameScreen);
+    // Autosize is used to auto-scale the window for a larger board (e.g. 9x9);
     root.autosize();
     primaryStage.setHeight(root.getHeight());
     primaryStage.setWidth(root.getWidth());
@@ -96,12 +97,15 @@ public class Master extends Application {
     // Construct the Machine UI view
     GameScreen machineGameScreen = new GameScreen(gameViewModel, navigator, provider.getMachineBoard(gameSize));
     machineGameScreen.setBackground(new Background((new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY))));
-    machineGameScreen.autosize();
+
     Scene secondaryScene = new Scene(machineGameScreen, WINDOW_WIDTH, WINDOW_HEIGHT);
+
     Stage secondaryStage = new Stage();
     secondaryStage.setScene(secondaryScene);
-    secondaryStage.setHeight(root.getHeight());
-    secondaryStage.setWidth(root.getWidth());
+    machineGameScreen.autosize();
+    secondaryStage.setHeight(machineGameScreen.getHeight());
+    secondaryStage.setWidth(machineGameScreen.getWidth());
+
     secondaryStage.show();
 
     // Initialize the standard out UI

@@ -40,6 +40,7 @@ public class GameScreen extends BorderPane {
     this.setBottom(score);
     this.setPadding(new Insets(PADDING));
     this.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
+    this.setFocusTraversable(true);
 
     viewModel.observeState().subscribe(this::updateView);
     viewModel.observeBoard().subscribe(board::repaintTiles);
