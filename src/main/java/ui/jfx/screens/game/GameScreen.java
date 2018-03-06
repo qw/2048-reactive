@@ -65,6 +65,9 @@ public class GameScreen extends BorderPane {
         case RIGHT:
           viewModel.tryMove(Direction.RIGHT);
           break;
+        case R:
+          viewModel.restartGame(viewModel.getSize());
+          break;
         }
       } else if (state == GAMEOVER) {
         switch (keyCode) {

@@ -65,7 +65,7 @@ public class ColorfulBoardComponent extends BoardComponent {
 
 class ColorfulTileComponent extends StackPane {
 
-  private static final Font FONT = new Font("Arial", 48);
+  private static final String FONT = "Arial";
 
   private static final int ARC = 14;
 
@@ -81,7 +81,7 @@ class ColorfulTileComponent extends StackPane {
     rectangle.setArcWidth(ARC);
 
     text = new Text("");
-    text.setFont(FONT);
+    text.setFont(new Font(FONT, 48));
     text.setBoundsType(TextBoundsType.VISUAL);
 
     this.getChildren().addAll(rectangle, text);
@@ -91,6 +91,7 @@ class ColorfulTileComponent extends StackPane {
   public void repaint(int value) {
     rectangle.setFill(getColor(value));
     text.setText(value == 0 ? "" : String.valueOf(value));
+    text.setFont(new Font(FONT, getFontSize(value)));
     centerText();
   }
 
@@ -102,6 +103,19 @@ class ColorfulTileComponent extends StackPane {
     double w = text.getBoundsInLocal().getWidth();
     double h = text.getBoundsInLocal().getHeight();
     text.relocate(r - w / 2, r - h / 2);
+  }
+
+  private int getFontSize(int value) {
+    int size;
+    if (value < 10) size = 42;
+    else if (value < 100) size = 36;
+    else if (value < 1000) size = 32;
+    else if (value < 10000) size = 24;
+    else if (value < 100000) size = 20;
+    else if (value < 1000000) size = 16;
+    else size = 12;
+
+    return size;
   }
 
   private static Color getColor(int value) {

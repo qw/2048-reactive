@@ -74,8 +74,6 @@ class NormalizedTileComponent extends StackPane {
 
   private static final Color OPAQUE_COLOR = Color.rgb(0, 0, 0);
 
-  private Text text;
-
   private Rectangle rectangle;
 
   NormalizedTileComponent(double x, double y, double size) {
@@ -83,11 +81,7 @@ class NormalizedTileComponent extends StackPane {
     rectangle.setX(x);
     rectangle.setY(y);
 
-    text = new Text("");
-    text.setFont(FONT);
-    text.setBoundsType(TextBoundsType.VISUAL);
-
-    this.getChildren().addAll(rectangle, text);
+    this.getChildren().addAll(rectangle);
     repaint(1);
   }
 
