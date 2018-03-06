@@ -8,9 +8,6 @@ import javafx.scene.layout.StackPane;
 import ui.jfx.components.board.BoardComponent;
 import ui.jfx.components.board.ColorfulBoardComponent;
 import ui.jfx.components.board.NormalizedBoardComponent;
-import ui.jfx.components.tile.ColorfulTileComponent;
-import ui.jfx.components.tile.NormalizedTileComponent;
-import ui.jfx.components.tile.TileComponent;
 import ui.jfx.navigation.Navigator;
 import ui.jfx.navigation.SimpleNavigator;
 
