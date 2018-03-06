@@ -37,14 +37,6 @@ public class Provider {
     return new ColorfulBoardComponent(size);
   }
 
-  public TileComponent getHumanTile(double x, double y, double size) {
-    return new ColorfulTileComponent(x, y, size);
-  }
-
-  public TileComponent getMachineTile(double x, double y, double size) {
-    return new NormalizedTileComponent(x, y, size);
-  }
-
   public BoardComponent getMachineBoard(int size) {
     return new NormalizedBoardComponent(size);
   }
