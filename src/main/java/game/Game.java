@@ -8,8 +8,6 @@ public interface Game {
 
   void endGame();
 
-  void menu();
-
   Observable<int[][]> observeBoard();
 
   Observable<Integer> observeScore();

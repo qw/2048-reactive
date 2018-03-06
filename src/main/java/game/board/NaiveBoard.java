@@ -29,6 +29,8 @@ public class NaiveBoard implements Board {
   public void initialise(int size) {
     // Reset the board before initialising a new one
 
+    newTile = BehaviorSubject.create();
+
     board = new int[size][size];
     boardSubject.onNext(board);
 

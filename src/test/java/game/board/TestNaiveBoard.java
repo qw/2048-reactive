@@ -1,10 +1,7 @@
 package game.board;
 
 import io.reactivex.observers.TestObserver;
-import io.reactivex.subscribers.TestSubscriber;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,9 +11,9 @@ import static java.lang.System.out;
 
 public class TestNaiveBoard {
 
-  private NaiveBoard board;
-
   private static final int TEST_BOARD_SIZE = 4;
+
+  private NaiveBoard board;
 
   public TestNaiveBoard() {
     board = new NaiveBoard();
@@ -68,7 +65,7 @@ public class TestNaiveBoard {
 
   @Test
   public void TestTryMoveDown() {
-    int[][] preMove = new int[][] {
+    int[][] preMove = new int[][]{
         { 0, 0, 2, 0, 0 },
         { 0, 0, 2, 0, 0 },
         { 0, 0, 2, 0, 0 },
@@ -76,7 +73,7 @@ public class TestNaiveBoard {
         { 0, 0, 0, 0, 0 }
     };
 
-    int[][] postMove = new int[][] {
+    int[][] postMove = new int[][]{
         { 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0 },
@@ -93,7 +90,7 @@ public class TestNaiveBoard {
 
   @Test
   public void TestTryMoveFull() {
-    int[][] preMove = new int[][] {
+    int[][] preMove = new int[][]{
         { 2, 8, 2, 8, 2 },
         { 2, 8, 2, 8, 2 },
         { 2, 8, 2, 8, 2 },
@@ -101,7 +98,7 @@ public class TestNaiveBoard {
         { 2, 8, 2, 8, 2 }
     };
 
-    int[][] postMove = new int[][] {
+    int[][] postMove = new int[][]{
         { 2, 8, 2, 8, 2 },
         { 2, 8, 2, 8, 2 },
         { 2, 8, 2, 8, 2 },
@@ -115,7 +112,7 @@ public class TestNaiveBoard {
     }
     Assert.assertArrayEquals(postMove, board.observeBoard().blockingSingle());
 
-    preMove = new int[][] {
+    preMove = new int[][]{
         { 0, 4, 4, 8, 2 },
         { 2, 8, 2, 8, 2 },
         { 2, 8, 2, 8, 2 },
@@ -123,7 +120,7 @@ public class TestNaiveBoard {
         { 2, 8, 2, 8, 2 }
     };
 
-    postMove = new int[][] {
+    postMove = new int[][]{
         { 0, 0, 8, 8, 2 },
         { 2, 8, 2, 8, 2 },
         { 2, 8, 2, 8, 2 },
@@ -137,7 +134,7 @@ public class TestNaiveBoard {
     }
     Assert.assertArrayEquals(postMove, board.observeBoard().blockingSingle());
 
-    preMove = new int[][] {
+    preMove = new int[][]{
         { 0, 4, 4, 8, 2 },
         { 2, 8, 2, 8, 2 },
         { 2, 8, 2, 8, 2 },
@@ -145,7 +142,7 @@ public class TestNaiveBoard {
         { 2, 8, 2, 8, 2 }
     };
 
-    postMove = new int[][] {
+    postMove = new int[][]{
         { 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0 },
@@ -162,7 +159,7 @@ public class TestNaiveBoard {
 
   @Test
   public void TestComplexMove() {
-    int[][] preMove = new int[][] {
+    int[][] preMove = new int[][]{
         { 2, 8, 8, 16, 2 },
         { 16, 16, 1024, 32, 2 },
         { 2, 4, 512, 512, 2 },
@@ -170,7 +167,7 @@ public class TestNaiveBoard {
         { 0, 0, 0, 0, 2 }
     };
 
-    int[][] postMove = new int[][] {
+    int[][] postMove = new int[][]{
         { 0, 2, 16, 16, 2 },
         { 0, 32, 1024, 32, 2 },
         { 0, 2, 4, 1024, 2 },

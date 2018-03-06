@@ -8,6 +8,9 @@ import javafx.scene.layout.StackPane;
 import ui.jfx.components.board.BoardComponent;
 import ui.jfx.components.board.ColorfulBoardComponent;
 import ui.jfx.components.board.NormalizedBoardComponent;
+import ui.jfx.components.tile.ColorfulTileComponent;
+import ui.jfx.components.tile.NormalizedTileComponent;
+import ui.jfx.components.tile.TileComponent;
 import ui.jfx.navigation.Navigator;
 import ui.jfx.navigation.SimpleNavigator;
 
@@ -32,6 +35,14 @@ public class Provider {
 
   public BoardComponent getHumanBoard(int size) {
     return new ColorfulBoardComponent(size);
+  }
+
+  public TileComponent getHumanTile(double x, double y, double size) {
+    return new ColorfulTileComponent(x, y, size);
+  }
+
+  public TileComponent getMachineTile(double x, double y, double size) {
+    return new NormalizedTileComponent(x, y, size);
   }
 
   public BoardComponent getMachineBoard(int size) {

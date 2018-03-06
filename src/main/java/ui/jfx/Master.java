@@ -10,6 +10,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -50,13 +51,11 @@ public class Master extends Application {
 
     menu = new MenuScreen(navigator);
     root.getChildren().add(menu);
-
     root.addEventHandler(KeyEvent.KEY_PRESSED, this::controls);
 
     scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     primaryStage.setTitle("2048");
-    primaryStage.setResizable(false);
     primaryStage.setScene(scene);
     primaryStage.show();
   }
@@ -88,25 +87,29 @@ public class Master extends Application {
 
     // Construct the Human UI view
     GameScreen humanGameScreen = new GameScreen(gameViewModel, navigator, provider.getHumanBoard(gameSize));
-    navigator.next(humanGameScreen);
-    // Autosize is used to auto-scale the window for a larger board (e.g. 9x9);
-    root.autosize();
-    primaryStage.setHeight(root.getHeight());
-    primaryStage.setWidth(root.getWidth());
+//    navigator.next(humanGameScreen);
 
     // Construct the Machine UI view
     GameScreen machineGameScreen = new GameScreen(gameViewModel, navigator, provider.getMachineBoard(gameSize));
     machineGameScreen.setBackground(new Background((new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY))));
 
-    Scene secondaryScene = new Scene(machineGameScreen, WINDOW_WIDTH, WINDOW_HEIGHT);
+    HBox hBox = new HBox();
+    hBox.getChildren().addAll(humanGameScreen, machineGameScreen);
+    navigator.next(hBox);
 
-    Stage secondaryStage = new Stage();
-    secondaryStage.setScene(secondaryScene);
-    machineGameScreen.autosize();
-    secondaryStage.setHeight(machineGameScreen.getHeight());
-    secondaryStage.setWidth(machineGameScreen.getWidth());
-
-    secondaryStage.show();
+    // Autosize is used to auto-scale the window for a larger board (e.g. 9x9);
+    root.autosize();
+    primaryStage.setHeight(root.getHeight());
+    primaryStage.setWidth(root.getWidth());
+//    Scene secondaryScene = new Scene(machineGameScreen, WINDOW_WIDTH, WINDOW_HEIGHT);
+//
+//    Stage secondaryStage = new Stage();
+//    secondaryStage.setScene(secondaryScene);
+//    machineGameScreen.autosize();
+//    secondaryStage.setHeight(machineGameScreen.getHeight());
+//    secondaryStage.setWidth(machineGameScreen.getWidth());
+//
+//    secondaryStage.show();
 
     // Initialize the standard out UI
     View view = new MultiDisplayDemoAscii(game);
