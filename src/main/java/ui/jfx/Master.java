@@ -97,21 +97,15 @@ public class Master extends Application {
     hBox.getChildren().addAll(humanGameScreen, machineGameScreen);
     navigator.next(hBox);
 
+    humanGameScreen.requestFocus();
+    humanGameScreen.setFocusTraversable(false);
+
     // Autosize is used to auto-scale the window for a larger board (e.g. 9x9);
     root.autosize();
     primaryStage.setHeight(root.getHeight());
     primaryStage.setWidth(root.getWidth());
-//    Scene secondaryScene = new Scene(machineGameScreen, WINDOW_WIDTH, WINDOW_HEIGHT);
-//
-//    Stage secondaryStage = new Stage();
-//    secondaryStage.setScene(secondaryScene);
-//    machineGameScreen.autosize();
-//    secondaryStage.setHeight(machineGameScreen.getHeight());
-//    secondaryStage.setWidth(machineGameScreen.getWidth());
-//
-//    secondaryStage.show();
 
-    // Initialize the standard out UI
+    // Initialize the standard out console UI
     View view = new MultiDisplayDemoAscii(game);
     view.display();
   }
