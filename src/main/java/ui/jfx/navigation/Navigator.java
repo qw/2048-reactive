@@ -7,7 +7,7 @@ public abstract class Navigator {
 
   protected StackPane root;
 
-  protected Navigator(StackPane root){
+  protected Navigator(StackPane root) {
     this.root = root;
   }
 

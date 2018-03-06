@@ -1,9 +1,7 @@
-package ui.jfx;
+package ui.jfx.navigation;
 
-import java.util.Deque;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import ui.jfx.navigation.Navigator;
 
 public class SimpleNavigator extends Navigator {
 
@@ -13,8 +11,8 @@ public class SimpleNavigator extends Navigator {
 
   @Override
   public void next(Pane newPane) {
-      root.getChildren().add(newPane);
-      newPane.requestFocus();
+    root.getChildren().add(newPane);
+    newPane.requestFocus();
   }
 
   @Override

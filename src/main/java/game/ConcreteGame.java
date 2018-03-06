@@ -4,9 +4,7 @@ import game.board.Board;
 import game.score.ScoreKeeper;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposables;
 import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.Subject;
 
 public class ConcreteGame implements Game {
 
@@ -24,7 +22,7 @@ public class ConcreteGame implements Game {
     this.board = board;
     this.scoreKeeper = scoreKeeper;
 
-    gameState = BehaviorSubject.createDefault(GameState.MENU);
+    gameState = BehaviorSubject.createDefault(GameState.IDLE);
     pastMove = BehaviorSubject.create();
   }
 
@@ -41,11 +39,6 @@ public class ConcreteGame implements Game {
   @Override
   public void endGame() {
     gameState.onNext(GameState.GAMEOVER);
-  }
-
-  @Override
-  public void menu() {
-    gameState.onNext(GameState.MENU);
   }
 
   @Override

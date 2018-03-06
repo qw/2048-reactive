@@ -12,7 +12,7 @@ import ui.ascii.machine.MachineAscii;
 import ui.jfx.Master;
 import static java.lang.System.out;
 
-public class Main{
+public class Main {
 
   private static String[] interfaces = { "machine", "human ASCII", "human GUI" };
 
@@ -64,7 +64,7 @@ public class Main{
       ui = new MachineAscii(game, new Gson());
     } else if (i == 1) {
       ui = new HumanAscii(game);
-    } else if (i == 2){
+    } else if (i == 2) {
       return;
     } else {
       ui = new MultiDisplayDemoAscii(game);

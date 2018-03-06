@@ -2,16 +2,12 @@ package game.board;
 
 import game.Direction;
 import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposables;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 import java.util.HashSet;
 import java.util.Random;
 import utils.MatrixUtils;
-import static java.lang.System.err;
 import static java.lang.System.out;
-import static java.lang.System.setOut;
 
 public class NaiveBoard implements Board {
 
@@ -32,6 +28,8 @@ public class NaiveBoard implements Board {
   @Override
   public void initialise(int size) {
     // Reset the board before initialising a new one
+
+    newTile = BehaviorSubject.create();
 
     board = new int[size][size];
     boardSubject.onNext(board);

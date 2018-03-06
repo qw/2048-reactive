@@ -1,16 +1,12 @@
 package game;
 
 import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import javafx.collections.ObservableList;
 
 public interface Game {
 
   void newGame(int size);
 
   void endGame();
-
-  void menu();
 
   Observable<int[][]> observeBoard();
 
