@@ -98,7 +98,6 @@ public class Master extends Application {
     navigator.next(hBox);
 
     humanGameScreen.requestFocus();
-    humanGameScreen.setFocusTraversable(false);
 
     // Autosize is used to auto-scale the window for a larger board (e.g. 9x9);
     root.autosize();
