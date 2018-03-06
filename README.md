@@ -15,6 +15,13 @@ This project was used to practice the following skills:
   * Singleton [See Provider.java](src/main/java/dependency/Provider.java)
 * Using states for GUI interaction 
 
+# Controls
+* Enter the game size and press `Enter` to start the game.
+* `Arrow` keys to shift tiles
+* During any time, press `R` to restart, and `ESC` to quit.
+* When the game is over (no empty slots and cannot be shifted in any direction), press `R` or `Y` to restart, or `N` to quit.
+
+
 # Thanks To
 * [bulenkov](https://github.com/bulenkov) for his 2048 tile color and sizing
 * https://codereview.stackexchange.com/a/120644 for matrix clockwise rotation.
