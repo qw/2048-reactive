@@ -15,7 +15,7 @@ This project was used to practice the following skills:
   * Singleton [See Provider.java](src/main/java/dependency/Provider.java)
 * Using states for GUI interaction 
 
-# Controls
+# How To Play
 * Enter the game size and press `Enter` to start the game.
 * `Arrow` keys to shift tiles
 * During any time, press `R` to restart, and `ESC` to quit.
