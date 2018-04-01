@@ -64,7 +64,7 @@ public class ConcreteGame implements Game {
   @Override
   public boolean tryMove(Direction moveDirection) {
     // Don't do anything if no game is currently going
-    if (gameState.getValue() == null || gameState.getValue() != GameState.IDLE)
+    if (gameState.getValue() == GameState.GAMEOVER || gameState.getValue() == GameState.MENU || gameState.getValue() == null || gameState.getValue() != GameState.IDLE)
       return false;
 
     boolean hasMoved;
