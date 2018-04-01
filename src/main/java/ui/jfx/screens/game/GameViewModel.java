@@ -13,7 +13,6 @@ public class GameViewModel {
 
   public GameViewModel(Game game) {
     this.game = game;
-
   }
 
   public boolean tryMove(Direction direction) {

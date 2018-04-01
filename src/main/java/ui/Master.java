@@ -1,9 +1,15 @@
-package ui.jfx;
+package ui;
 
+import com.google.gson.Gson;
 import dependency.Provider;
+import game.ConcreteGame;
 import game.Game;
+import game.GameState;
+import game.board.NaiveBoard;
+import game.score.ConcreteScoreKeeper;
 import javafx.application.Application;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -14,12 +20,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import ui.View;
 import ui.ascii.human.MultiDisplayDemoAscii;
 import ui.jfx.navigation.Navigator;
 import ui.jfx.screens.game.GameScreen;
 import ui.jfx.screens.game.GameViewModel;
 import ui.jfx.screens.menu.MenuScreen;
+import ui.network.TcpServer;
+import ui.network.TestClient;
 
 public class Master extends Application {
 
@@ -41,10 +48,18 @@ public class Master extends Application {
 
   private MenuScreen menu;
 
+  private Game game;
+
   @Override
   public void start(Stage primaryStage) throws Exception {
     this.primaryStage = primaryStage;
     provider = Provider.getInstance();
+    game = provider.getGame();
+
+    gameViewModel = new GameViewModel(game);
+
+//    new Thread(() -> new TcpServer(game, new Gson()).display()).start();
+//    new Thread(() -> new TestClient().run()).start();
 
     root = new StackPane();
     navigator = provider.getNavigator(root);
@@ -58,36 +73,56 @@ public class Master extends Application {
     primaryStage.setTitle("2048");
     primaryStage.setScene(scene);
     primaryStage.show();
+
+    gameViewModel.observeState().subscribe(this::setScreen);
   }
 
-  // Master handles navigation related key events
-  private void controls(KeyEvent keyEvent) {
-    KeyCode key = keyEvent.getCode();
-
-    switch (key) {
-    case ESCAPE:
-      System.exit(0);
+  private void setScreen(GameState gameState) {
+    int size = root.getChildren().size();
+    Node topNode = root.getChildren().get(size - 1);
+    switch(gameState) {
+    case MENU:
+      while (!(topNode instanceof MenuScreen)) {
+        navigator.prev();
+        topNode = root.getChildren().get(size - 1);
+      }
       break;
-    case ENTER:
-      int size = root.getChildren().size();
-      if (root.getChildren().get(size - 1) instanceof MenuScreen) {
+    case IDLE:
+      if (topNode instanceof MenuScreen) {
         displayGameScreens();
       }
       break;
     }
   }
 
-  private void displayGameScreens() {
-    Game game = provider.getGame();
-    int gameSize = menu.getGameSize();
+  // Master handles navigation related key events
+  private void controls(KeyEvent keyEvent) {
+    KeyCode key = keyEvent.getCode();
 
-    // Initialize the JavaFx view model
-    gameViewModel = new GameViewModel(game);
-    gameViewModel.restartGame(gameSize);
+    int size = root.getChildren().size();
+    Node topNode = root.getChildren().get(size - 1);
+    switch (key) {
+    case ESCAPE:
+      navigator.prev();
+      break;
+    case ENTER:
+      if (topNode instanceof MenuScreen) {
+        MenuScreen menuScreen = (MenuScreen) topNode;
+        displayGameScreens();
+        gameViewModel.restartGame(menuScreen.getGameSize());
+      }
+      break;
+    }
+  }
+
+  /**
+   * Only displays the views, does not start the game
+   */
+  private void displayGameScreens() {
+    int gameSize = menu.getGameSize();
 
     // Construct the Human UI view
     GameScreen humanGameScreen = new GameScreen(gameViewModel, navigator, provider.getHumanBoard(gameSize));
-//    navigator.next(humanGameScreen);
 
     // Construct the Machine UI view
     GameScreen machineGameScreen = new GameScreen(gameViewModel, navigator, provider.getMachineBoard(gameSize));

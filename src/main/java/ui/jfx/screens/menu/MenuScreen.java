@@ -1,6 +1,7 @@
 package ui.jfx.screens.menu;
 
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import ui.jfx.navigation.Navigator;
@@ -36,14 +37,5 @@ public class MenuScreen extends Pane {
   }
 
   private void controls(KeyEvent keyEvent) {
-//    int size = Integer.parseInt(gameSize.getText());
-//    switch (keyEvent.getCode()) {
-//    case LEFT:
-//      gameSize.setText(String.valueOf(++size));
-//      break;
-//    case RIGHT:
-//      gameSize.setText(String.valueOf(--size));
-//      break;
-//    }
   }
 }

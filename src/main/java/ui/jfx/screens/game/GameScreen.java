@@ -14,6 +14,7 @@ import ui.jfx.components.ScoreComponent;
 import ui.jfx.components.board.BoardComponent;
 import ui.jfx.navigation.Navigator;
 import static game.GameState.GAMEOVER;
+import static game.GameState.MENU;
 
 public class GameScreen extends BorderPane {
 
@@ -80,6 +81,8 @@ public class GameScreen extends BorderPane {
           navigator.prev();
           break;
         }
+      } else if (state == MENU) {
+        navigator.prev();
       }
 
     });

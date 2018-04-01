@@ -18,9 +18,11 @@ public class SimpleNavigator extends Navigator {
   @Override
   public void prev() {
     int size = root.getChildren().size();
+    root.getChildren().remove(size - 1);
     if (size > 1) {
-      root.getChildren().remove(size - 1);
       root.getChildren().get(size - 2).requestFocus();
+    } else {
+      System.exit(0);
     }
   }
 

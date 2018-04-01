@@ -2,14 +2,18 @@ package main;
 
 import com.google.gson.Gson;
 import dependency.Provider;
+import game.ConcreteGame;
 import game.Game;
+import game.board.NaiveBoard;
+import game.score.ConcreteScoreKeeper;
 import java.util.Scanner;
 import javafx.application.Application;
 import ui.View;
 import ui.ascii.human.HumanAscii;
 import ui.ascii.human.MultiDisplayDemoAscii;
 import ui.ascii.machine.MachineAscii;
-import ui.jfx.Master;
+import ui.Master;
+import ui.network.TcpServer;
 import static java.lang.System.out;
 
 public class Main {
@@ -17,7 +21,9 @@ public class Main {
   private static String[] interfaces = { "machine", "human ASCII", "human GUI" };
 
   public static void main(String[] args) {
-    Application.launch(Master.class);
+    Application.launch(Master.class, args);
+//    TcpServer tcpServer = new TcpServer(new ConcreteGame(new NaiveBoard(), new ConcreteScoreKeeper()), new Gson());
+//    tcpServer.display();
   }
 
   /**

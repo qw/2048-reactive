@@ -22,7 +22,7 @@ public class ConcreteGame implements Game {
     this.board = board;
     this.scoreKeeper = scoreKeeper;
 
-    gameState = BehaviorSubject.createDefault(GameState.IDLE);
+    gameState = BehaviorSubject.createDefault(GameState.MENU);
     pastMove = BehaviorSubject.create();
   }
 
