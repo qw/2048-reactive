@@ -2,11 +2,8 @@ package ui;
 
 import com.google.gson.Gson;
 import dependency.Provider;
-import game.ConcreteGame;
 import game.Game;
 import game.GameState;
-import game.board.NaiveBoard;
-import game.score.ConcreteScoreKeeper;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -26,9 +23,8 @@ import ui.jfx.screens.game.GameScreen;
 import ui.jfx.screens.game.GameViewModel;
 import ui.jfx.screens.menu.MenuScreen;
 import ui.network.TcpServer;
-import ui.network.TestClient;
 
-public class Master extends Application {
+public class MasterView extends Application {
 
   private static final int WINDOW_HEIGHT = 400;
 
@@ -58,9 +54,6 @@ public class Master extends Application {
 
     gameViewModel = new GameViewModel(game);
 
-//    new Thread(() -> new TcpServer(game, new Gson()).display()).start();
-//    new Thread(() -> new TestClient().run()).start();
-
     root = new StackPane();
     navigator = provider.getNavigator(root);
 
@@ -75,6 +68,7 @@ public class Master extends Application {
     primaryStage.show();
 
     gameViewModel.observeState().subscribe(this::setScreen);
+    new Thread(() -> new TcpServer(game, new Gson()).display()).start();
   }
 
   private void setScreen(GameState gameState) {
@@ -95,7 +89,7 @@ public class Master extends Application {
     }
   }
 
-  // Master handles navigation related key events
+  // MasterView handles navigation related key events
   private void controls(KeyEvent keyEvent) {
     KeyCode key = keyEvent.getCode();
 
