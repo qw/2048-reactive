@@ -22,6 +22,12 @@ public class TcpServer implements View {
 
   private ServerSocket socket;
 
+  private BehaviorSubject<Integer> score;
+
+  private BehaviorSubject<GameState> gameStateSubject;
+
+  private BehaviorSubject<int[][]> board;
+
   private final Gson gson;
 
   private static final String HOST_NAME = "localhost";
@@ -31,6 +37,15 @@ public class TcpServer implements View {
   public TcpServer(Game game, Gson gson) {
     this.game = game;
     this.gson = gson;
+
+    board = BehaviorSubject.create();
+    game.observeBoard().subscribe(board);
+
+    gameStateSubject = BehaviorSubject.createDefault(GameState.MENU);
+    game.observeState().subscribe(gameStateSubject);
+
+    score = BehaviorSubject.createDefault(0);
+    game.observeScore().subscribe(score);
   }
 
   @Override
@@ -54,8 +69,8 @@ public class TcpServer implements View {
           // do nothing
         }
 
-        game.observeState().subscribe((gameState)->{
-          KeyCode keyCode = KeyCode.getKeyCode(inFromClient.readLine());
+        KeyCode keyCode = KeyCode.getKeyCode(s);
+        GameState gameState = gameStateSubject.getValue();
           if (gameState != GameState.MENU) {
             switch (gameState) {
             case IDLE:
@@ -66,14 +81,11 @@ public class TcpServer implements View {
 
           GameDTO gameDTO = new GameDTO();
           gameDTO.gameState = gameState;
-          BehaviorSubject<int[][]> board = (BehaviorSubject<int[][]>) game.observeBoard();
           gameDTO.board = board.getValue();
 
           // BufferedWriter only writes when it is flushed (auto when full or manual)
           out.append(gson.toJson(gameDTO)).append("\r\n");
           out.flush();
-        });
-
       }
     } catch (IOException e) {
       e.printStackTrace();
