@@ -21,7 +21,7 @@ public class GameScreen extends BorderPane {
 
   private static final int PADDING = 16;
 
-  private GameViewModel viewModel;
+  private GameViewModel game;
 
   private BoardComponent board;
 
@@ -29,8 +29,8 @@ public class GameScreen extends BorderPane {
 
   private Navigator navigator;
 
-  public GameScreen(GameViewModel viewModel, Navigator navigator, BoardComponent board) {
-    this.viewModel = viewModel;
+  public GameScreen(GameViewModel game, Navigator navigator, BoardComponent board) {
+    this.game = game;
     this.navigator = navigator;
     this.board = board;
     board.autosize();
@@ -42,29 +42,22 @@ public class GameScreen extends BorderPane {
     this.setBackground(new Background(new BackgroundFill(BG_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
     this.setFocusTraversable(true);
 
-    viewModel.observeState().subscribe(this::updateView);
-    viewModel.observeBoard().subscribe(board::repaintTiles);
-    viewModel.observeScore().subscribe(score::drawScore);
+    game.observeState().subscribe(this::updateView);
+    game.observeBoard().subscribe(board::repaintTiles);
+    game.observeScore().subscribe(score::drawScore);
     this.setOnKeyPressed(this::controls);
   }
 
   private void controls(KeyEvent keyEvent) {
-    viewModel.observeState().take(1).subscribe((state)->{
+    game.observeState().take(1).subscribe((state)->{
       KeyCode keyCode = keyEvent.getCode();
       if (state == GameState.IDLE) {
         switch (keyCode) {
         case UP:
-          viewModel.tryMove(Direction.UP);
-          break;
-        case DOWN:
-          viewModel.tryMove(Direction.DOWN);
-          break;
-        case LEFT:
-          break;
-        case RIGHT:
+          game.tryMove(Direction.UP);
           break;
         case R:
-          viewModel.restartGame(viewModel.getSize());
+          game.restartGame(game.getSize());
           break;
         case Q:
           navigator.prev();
@@ -74,10 +67,10 @@ public class GameScreen extends BorderPane {
         switch (keyCode) {
         case Y:
         case R:
-          viewModel.restartGame(viewModel.getSize());
+          game.restartGame(game.getSize());
           break;
         case N:
-          viewModel.endGame();
+          game.endGame();
           navigator.prev();
           break;
         }

@@ -54,6 +54,7 @@ public class Master extends Application {
     root.addEventHandler(KeyEvent.KEY_PRESSED, this::controls);
 
     scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+    displayGameScreens();
 
     primaryStage.setTitle("2048");
     primaryStage.setScene(scene);
@@ -94,7 +95,7 @@ public class Master extends Application {
     machineGameScreen.setBackground(new Background((new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY))));
 
     HBox hBox = new HBox();
-    hBox.getChildren().addAll(humanGameScreen, machineGameScreen);
+    hBox.getChildren().addAll(humanGameScreen);
     navigator.next(hBox);
 
     humanGameScreen.requestFocus();
