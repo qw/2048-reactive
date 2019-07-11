@@ -50,12 +50,24 @@ public class GameScreen extends BorderPane {
 
   private void controls(KeyEvent keyEvent) {
     game.observeState().take(1).subscribe((state)->{
-      KeyCode keyCode = keyEvent.getCode();
+      KeyCode keyPressed = keyEvent.getCode();
       if (state == GameState.IDLE) {
-        switch (keyCode) {
-        case UP:
-          game.tryMove(Direction.UP);
-          break;
+
+        if (keyPressed == KeyCode.UP) { // Check which key was pressed
+          // The key pressed was the UP arrow key, move the tiles accordingly
+          moveTiles(Direction.UP);
+          return; // We've found which key was pressed, we can stop checking for any other keys
+        }
+
+        // Start here
+        if (keyPressed == KeyCode.LEFT) {
+          // Complete the code for the LEFT arrow key using the UP code as a guide
+        }
+
+        // Complete the same for the other directions
+
+        // Your code ends here
+        switch (keyPressed) {
         case R:
           game.restartGame(game.getSize());
           break;
@@ -64,7 +76,7 @@ public class GameScreen extends BorderPane {
           break;
         }
       } else if (state == GAMEOVER) {
-        switch (keyCode) {
+        switch (keyPressed) {
         case Y:
         case R:
           game.restartGame(game.getSize());
@@ -77,6 +89,10 @@ public class GameScreen extends BorderPane {
       }
 
     });
+  }
+
+  private void moveTiles(Direction direction) {
+    game.tryMove(direction);
   }
 
   private void updateView(GameState gameState) {
