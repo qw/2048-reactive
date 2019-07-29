@@ -50,24 +50,36 @@ public class GameScreen extends BorderPane {
 
   private void controls(KeyEvent keyEvent) {
     game.observeState().take(1).subscribe((state)->{
-      KeyCode keyPressed = keyEvent.getCode();
+      KeyCode keyCodeReceivedFromKeyboard = keyEvent.getCode();
       if (state == GameState.IDLE) {
-
-        if (keyPressed == KeyCode.UP) { // Check which key was pressed
+        // TIPS:
+        // - things following two slashes // are comments, they are not code.
+        // - comments help us understand the code.
+        // - double equals == means equals in code instead of a single equals = we use in math.
+        // - notice that every time we have an open curly brace {, lines are indented (tab) once to the right,
+        //   this is to keep code readable. A close curly brace } takes the indentation back once.
+        // - what you see below are what's called 'if statements', they let you do things based on conditions
+        //   if (condition is true) { do the actions written in here between the curly braces }
+        // - for example, EXAMPLE ONE below says `if (key code received from the keyboard is the UP arrow key) {
+        //   move the tiles up } '.
+        // - note that brackets are used around the condition (condition), while curly braces are used around what
+        //   action to do { action here }
+        // EXAMPLE ONE
+        if (keyCodeReceivedFromKeyboard == KeyCode.UP) { // Check which key was pressed
           // The key pressed was the UP arrow key, move the tiles accordingly
-          moveTiles(Direction.UP);
-          return; // We've found which key was pressed, we can stop checking for any other keys
+          moveTiles(Direction.UP); // notice there is a semicolon here
+          return; // We've found which key was pressed, we can stop checking for any other keys. This is required.
         }
 
-        // Start here
-        if (keyPressed == KeyCode.LEFT) {
+        // ------- Start here -------
+        if (keyCodeReceivedFromKeyboard == KeyCode.LEFT) {
           // Complete the code for the LEFT arrow key using the UP code as a guide
         }
 
         // Complete the same for the other directions
 
-        // Your code ends here
-        switch (keyPressed) {
+        // ------ Your code ends here -------
+        switch (keyCodeReceivedFromKeyboard) {
         case R:
           game.restartGame(game.getSize());
           break;
@@ -76,7 +88,7 @@ public class GameScreen extends BorderPane {
           break;
         }
       } else if (state == GAMEOVER) {
-        switch (keyPressed) {
+        switch (keyCodeReceivedFromKeyboard) {
         case Y:
         case R:
           game.restartGame(game.getSize());
